@@ -1,13 +1,16 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Web3Modal from "web3modal";
-import { providers, Contract } from "ethers";
+import { ethers, providers, Contract } from "ethers";
 import { useEffect, useRef, useState } from "react";
-import { RATING_CONTRACT_ADDRESS, abi } from "../constants";
+import { MAPPING_CONTRACT_ADDRESS, abi } from "../constants";
+import Web3Utils from 'web3-utils';
 
 export default function Home() {
   // walletConnected keep track of whether the user's wallet is connected or not
   const [walletConnected, setWalletConnected] = useState(false);
+  const [addressInChain, setAddressInChain] = useState(false);
+  const [passportInChain, setPassportInChain] = useState(false);
   // joinedWhitelist keeps track of whether the current metamask address has joined the Whitelist or not
   const [userRating, setUserRating] = useState(0);
   // Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
@@ -55,51 +58,106 @@ export default function Home() {
     }
   };
 
-  const getRating = async (address) => {
+  const sendPassport = async (event) => {
     try {
-        const ratingContract = new Contract(
-          RATING_CONTRACT_ADDRESS,
-          abi,
-          signer
-        );
-      const _userRating =
-        await ratingContract.getRating(address);
-      setUserRating(_userRating);
+      event.preventDefault()
+      const pass = event.target.pass.value;
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await provider.listAccounts();
+      const signer = await getProviderOrSigner(true);
+      const mappingContract = new Contract(MAPPING_CONTRACT_ADDRESS, abi, signer);
+
+      const tx = await mappingContract.saveHashPair(pass);
+      await tx.wait();
+
+      const _passportInChain = await getPassByAddress(accounts[0]);
+      const _addressInChain = await getAddressByPass(pass);
+      if (_passportInChain == Web3Utils.soliditySha3({t: 'string', v: pass})) {
+          setPassportInChain(true);
+      }
+      if (_addressInChain == accounts[0]) {
+          setPassportInChain(true);
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
-  const setRating = async (address) => {
-    try {
-        const ratingContract = new Contract(
-          RATING_CONTRACT_ADDRESS,
-          abi,
-          signer
-        );
-        const rat = await ratingContract.setRating(address, rating);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  /*
-    renderButton: Returns a button based on the state of the dapp
-  */
-  const renderButton = () => {
-    console.log(walletConnected)
-    if (walletConnected) {
-      return (
-        <button onClick={getRating}>Check Rating</button>,
-        <input type="text" id="address" name="address" />
-      );
+  const getAddressByPass = async (pass) => {
+    try {       
+      const signer = await getProviderOrSigner(true);
       
+      const mappingContract = new Contract(MAPPING_CONTRACT_ADDRESS, abi, signer);
+
+      const tx = await mappingContract.getAddressByPass(pass);
+      console.log(tx);
+
+      return tx
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getPassByAddress = async (address) => {
+    try {       
+      const signer = await getProviderOrSigner(true);
+      
+      const mappingContract = new Contract(MAPPING_CONTRACT_ADDRESS, abi, signer);
+
+      const tx = await mappingContract.getPassByAddress(address);
+      // await tx.wait();
+      console.log(tx);
+
+      return tx
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const renderSend = () => {
+    if (walletConnected) {
+      if (addressInChain || passportInChain) {
+        return (
+            <div>Your data already in chain!!!</div>
+        ) 
+      } else {
+        return (
+          <form onSubmit={sendPassport}>
+            <label for="first">Pass number:</label>
+            <input type="text" id="pass" name="first" />
+            <button type="submit">Add address</button>
+          </form>
+        );
+      }
     } else {
       return (
         <button onClick={connectWallet} className={styles.button}>
           Connect your wallet
-        </button>,
+        </button>
       );
+    }
+  };
+
+  const renderGetLoan = () => {
+    console.log('walletConnected', walletConnected)
+    console.log('passportInChain', passportInChain)
+    console.log('addressInChain', passportInChain)
+    if (walletConnected && passportInChain && addressInChain) {
+      return (
+        <form onSubmit={sendPassport}>
+          <label for="ammount">Ammount:</label>
+          <input type="number" id="ammount" name="ammount" />
+          <label for="ammount">Period:</label>
+          <input type="number" id="period" name="period" />
+          <button type="submit">Add address</button>
+        </form>
+      );
+    } else {
+      return (
+        <div>Can't find your address or passport in chain </div>
+      )
     }
   };
 
@@ -124,7 +182,8 @@ export default function Home() {
       <div className={styles.main}>
         <div>
           <h1 className={styles.title}>Ratting app</h1>
-          {renderButton()}
+          {renderSend()}
+          {renderGetLoan()}
         </div>
       </div>
 
