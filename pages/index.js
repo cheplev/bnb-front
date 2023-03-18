@@ -54,7 +54,6 @@ export default function Home() {
   const connectWallet = async () => {
     try {
       await getProviderOrSigner();
-      console.log(await getProviderOrSigner())
       setWalletConnected(true);
     } catch (err) {
       console.error(err);
@@ -144,10 +143,7 @@ export default function Home() {
   };
 
   const renderGetLoan = () => {
-    console.log('walletConnected', walletConnected)
-    console.log('passportInChain', passportInChain)
-    console.log('addressInChain', passportInChain)
-    if (walletConnected && passportInChain && addressInChain) {
+    if (walletConnected && (passportInChain || addressInChain)) {
       return (
         <form onSubmit={sendPassport}>
           <label for="ammount">Ammount:</label>
@@ -172,7 +168,21 @@ export default function Home() {
         disableInjectedProvider: false,
       });
       connectWallet();
+    } else {
+      const check = async () => {
+        const signer = await getProviderOrSigner(true);
+        const mappingContract = new Contract(MAPPING_CONTRACT_ADDRESS, abi, signer);
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await provider.listAccounts();
+        const _passportInChain = await mappingContract.getPassByAddress(accounts[0]);
+        if (_passportInChain.length > 0) {
+            setPassportInChain(true)
+        }
+        console.log('biba', _passportInChain)
+      }
+      check()
     }
+
   }, [walletConnected]);
 
   return (

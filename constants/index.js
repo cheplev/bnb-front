@@ -1,4 +1,4 @@
-export const MAPPING_CONTRACT_ADDRESS = "0x07f86644a7826804bB7dE9B0622eb40DA70952eB";
+export const MAPPING_CONTRACT_ADDRESS = "0x946a979b4600B35137720d6A97828Bcc7b0bEc7E";
 export const abi = [
 		{
 			"inputs": [
@@ -50,7 +50,7 @@ export const abi = [
 			"outputs": [
 				{
 					"internalType": "bytes32",
-					"name": "pass",
+					"name": "_pass",
 					"type": "bytes32"
 				}
 			],
