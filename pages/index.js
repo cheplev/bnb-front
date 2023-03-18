@@ -156,7 +156,7 @@ export default function Home() {
       );
     } else {
       return (
-        <div>Can't find your address or passport in chain </div>
+        <div>Can&apos;t find your address or passport in chain </div>
       )
     }
   };
