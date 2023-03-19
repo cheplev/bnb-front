@@ -175,10 +175,11 @@ export default function Home() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.listAccounts();
         const _passportInChain = await mappingContract.getPassByAddress(accounts[0]);
-        if (_passportInChain.length > 0) {
+        if (_passportInChain == Web3Utils.isAddress(accounts[0])) {
             setPassportInChain(true)
         }
         console.log('biba', _passportInChain)
+        console.log('boba', Web3Utils.isAddress(accounts[0]))
       }
       check()
     }
