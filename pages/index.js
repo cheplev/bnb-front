@@ -152,6 +152,9 @@ export default function Home() {
           <label for="ammount">Amount:</label>
           <input type="number" id="ammount" name="ammount" />
           <div> Max period for you is 12 months</div>
+          <select>
+            <option value='biba'>biba </option>
+            </select>
           <label for="ammount">Period in months:</label>
           <input type="number" id="period" name="period" />
           <button type="submit">get a loan</button>
