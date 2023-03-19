@@ -120,6 +120,8 @@ export default function Home() {
 
   const renderSend = () => {
     if (walletConnected) {
+      console.log(addressInChain)
+      console.log(passportInChain)
       if (addressInChain || passportInChain) {
         return (
             <div>Your data already in chain!!!</div>
@@ -146,11 +148,13 @@ export default function Home() {
     if (walletConnected && (passportInChain || addressInChain)) {
       return (
         <form onSubmit={sendPassport}>
-          <label for="ammount">Ammount:</label>
+          <div>Max amount for you is 10000 BUSD</div>
+          <label for="ammount">Amount:</label>
           <input type="number" id="ammount" name="ammount" />
-          <label for="ammount">Period:</label>
+          <div> Max period for you is 12 months</div>
+          <label for="ammount">Period in months:</label>
           <input type="number" id="period" name="period" />
-          <button type="submit">Add address</button>
+          <button type="submit">get a loan</button>
         </form>
       );
     } else {
