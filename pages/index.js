@@ -120,8 +120,6 @@ export default function Home() {
 
   const renderSend = () => {
     if (walletConnected) {
-      console.log(addressInChain)
-      console.log(passportInChain)
       if (addressInChain || passportInChain) {
         return (
             <div>Your data already in chain!!!</div>
@@ -182,9 +180,9 @@ export default function Home() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.listAccounts();
         const _passportInChain = await mappingContract.getPassByAddress(accounts[0]);
-        console.log('passport in chain ', _passportInChain);
-        console.log('passport in chain lengthj ', _passportInChain != parseInt(accounts[0], 16));
-        if (_passportInChain == parseInt(accounts[0], 16)) {
+
+        console.log('passport in chPasresain ', parseInt(_passportInChain, 16) !== 0);
+        if (parseInt(_passportInChain, 16) !== 0) {
             setPassportInChain(true)
         }
       }
