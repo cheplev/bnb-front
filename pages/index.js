@@ -184,8 +184,7 @@ export default function Home() {
         const _passportInChain = await mappingContract.getPassByAddress(accounts[0]);
         console.log('passport in chain ', _passportInChain);
         console.log('passport in chain lengthj ', _passportInChain.length);
-
-        if (_passportInChain != parseInt(address, 16)) {
+        if (_passportInChain != parseInt(accounts[0], 16)) {
             setPassportInChain(true)
         }
       }
