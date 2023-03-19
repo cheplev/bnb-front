@@ -202,7 +202,7 @@ export default function Home() {
       </Head>
       <div className={styles.main}>
         <div>
-          <h1 className={styles.title}>Ratting app</h1>
+          <h1 className={styles.title}>Rate app</h1>
           {renderSend()}
           {renderGetLoan()}
         </div>
