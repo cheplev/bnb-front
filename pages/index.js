@@ -182,7 +182,8 @@ export default function Home() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.listAccounts();
         const _passportInChain = await mappingContract.getPassByAddress(accounts[0]);
-        console.log(_passportInChain);
+        console.log('passport in chain ', _passportInChain);
+        console.log('passport in chain lengthj ', _passportInChain.length);
         if (_passportInChain.length > 0) {
             setPassportInChain(true)
         }
