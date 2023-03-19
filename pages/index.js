@@ -152,8 +152,6 @@ export default function Home() {
           <label for="ammount">Amount:</label>
           <input type="number" id="ammount" name="ammount" />
           <div> Max period for you is 12 months</div>
-          <label for="ammount">Period in months:</label>
-
           <select>
             <option value='3'>3 </option>
             <option value='6'>6 </option>
@@ -184,6 +182,7 @@ export default function Home() {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const accounts = await provider.listAccounts();
         const _passportInChain = await mappingContract.getPassByAddress(accounts[0]);
+        console.log(_passportInChain);
         if (_passportInChain.length > 0) {
             setPassportInChain(true)
         }
