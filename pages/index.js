@@ -122,14 +122,16 @@ export default function Home() {
     if (walletConnected) {
       if (addressInChain || passportInChain) {
         return (
-            <div>Your data already in chain!!!</div>
+            ''
         ) 
       } else {
         return (
-          <form onSubmit={sendPassport}>
-            <label for="first">Pass number:</label>
-            <input type="text" id="pass" name="first" />
-            <button type="submit">Add address</button>
+          <form onSubmit={sendPassport} className="bg-white bg-opacity-90 p-8 rounded-lg shadow-md">
+            <div className="mb-4">
+              <label htmlFor="pass" className="block text-gray-700 text-sm font-bold mb-2">Pass number:</label>
+              <input type="text" id="pass" name="first" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+            </div>
+            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add address</button>
           </form>
         );
       }
@@ -145,18 +147,22 @@ export default function Home() {
   const renderGetLoan = () => {
     if (walletConnected && (passportInChain || addressInChain)) {
       return (
-        <form onSubmit={sendPassport}>
-          <div>Max amount for you is 10000 BUSD</div>
-          <label for="ammount">Amount:</label>
-          <input type="number" id="ammount" name="ammount" />
-          <div> Max period for you is 12 months</div>
-          <select>
-            <option value='3'>3 </option>
-            <option value='6'>6 </option>
-            <option value='12'>12 </option>
-            </select>
-          <button type="submit">get a loan</button>
-        </form>
+      <form onSubmit={sendPassport} className="bg-white bg-opacity-90 p-8 rounded-lg shadow-md">
+        <div className="mb-4 text-blue-600 font-bold">Max amount for you is 10000 BUSD</div>
+        <div className="mb-4">
+          <label htmlFor="ammount" className="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
+          <input type="number" id="ammount" name="ammount" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+        </div>
+        <div className="mb-4 text-blue-600 font-bold">Max period for you is 12 months</div>
+        <div className="mb-4">
+          <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <option value="3">3</option>
+            <option value="6">6</option>
+            <option value="12">12</option>
+          </select>
+        </div>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Get a loan</button>
+      </form>
       );
     } else {
       return (
@@ -192,15 +198,18 @@ export default function Home() {
   }, [walletConnected]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
-        <title>Rating Dapp</title>
+        <title>RepChain</title>
         <meta name="description" content="Whitelist-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.main}>
         <div>
-          <h1 className={styles.title}>Rate app</h1>
+          <h1 className={`${styles.title} text-white font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl`}>RepChain</h1>
+          <p className="text-white text-opacity-80 font-semibold text-lg sm:text-xl md:text-2xl mt-4">
+            Empowering Trust through Decentralized Reputation
+          </p>
           {renderSend()}
           {renderGetLoan()}
         </div>
