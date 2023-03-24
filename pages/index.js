@@ -39,9 +39,9 @@ export default function Home() {
 
     // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
-    if (chainId !== 5) {
-      window.alert("Change the network to Goerli");
-      throw new Error("Change network to Goerli");
+    if (chainId !== 80001) {
+      window.alert("Change the network to Mumbai Polygon");
+      throw new Error("Change network to Mumbai Polygon");
     }
 
     if (needSigner) {
@@ -137,7 +137,7 @@ export default function Home() {
       }
     } else {
       return (
-        <button onClick={connectWallet} className={styles.button}>
+        <button onClick={connectWallet} className={`${styles.button} bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}>
           Connect your wallet
         </button>
       );
@@ -166,7 +166,9 @@ export default function Home() {
       );
     } else {
       return (
-        <div>Can&apos;t find your address or passport in chain </div>
+        <div className="bg-red-200 border-l-4 border-red-500 text-red-700 p-4 rounded-md my-4">
+          Can&apos;t find your address or passport in chain
+        </div>
       )
     }
   };
