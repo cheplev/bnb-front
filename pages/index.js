@@ -147,7 +147,7 @@ export default function Home() {
   const renderGetLoan = () => {
     if (walletConnected && (passportInChain || addressInChain)) {
       return (
-      <form onSubmit={sendPassport} className="bg-white bg-opacity-90 p-8 rounded-lg shadow-md">
+      <form onSubmit={sendPassport} className="bg-white bg-opacity-90 p-8 rounded-lg shadow-md my-4">
         <div className="mb-4 text-blue-600 font-bold">Max amount for you is 10000 BUSD</div>
         <div className="mb-4">
           <label htmlFor="ammount" className="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
