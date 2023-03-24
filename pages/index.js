@@ -137,7 +137,7 @@ export default function Home() {
       }
     } else {
       return (
-        <button onClick={connectWallet} className={`${styles.button} bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}>
+        <button onClick={connectWallet} className={`${styles.button} bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline my-4`}>
           Connect your wallet
         </button>
       );
