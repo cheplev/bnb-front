@@ -1,4 +1,4 @@
-export const MAPPING_CONTRACT_ADDRESS = "0x9fF98FC135de97C8a89141C0606b78a00cCE242a";
+export const MAPPING_CONTRACT_ADDRESS = "0xb0dF882C9DBa86Ad6ee3444151cCb82f5A2a20c6";
 export const abi = [
 		{
 			"inputs": [
